@@ -1,0 +1,1 @@
+A function that returns the shortest possible path a knight can take between two given spaces on a chess board.
