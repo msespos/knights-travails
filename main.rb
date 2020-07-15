@@ -1,7 +1,6 @@
 require_relative 'board.rb'
 require_relative 'knight.rb'
+require_relative 'tree.rb'
 
-Board.new
-knight = Knight.new([0,0])
-p knight.position
-p knight.possibilities
+tree = Tree.new
+tree.build

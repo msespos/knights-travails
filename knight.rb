@@ -1,19 +1,15 @@
 class Knight
-  attr_reader :position, :possibilities
+  attr_accessor :position, :nnw, :nne, :wnw, :ene, :wsw, :ese, :ssw, :sse
 
-  def initialize(position)
-    @position = position
-    @north_northwest = nil
-    @north_northeast = nil
-    @west_northwest = nil
-    @east_northeast = nil
-    @west_southwest = nil
-    @east_southeast = nil
-    @south_southwest = nil
-    @south_southeast = nil
-  end
-
-  def build_tree(position)
-    [[0,1],[0,2]]
+  def initialize
+    @position = nil
+    @nnw = nil
+    @nne = nil
+    @wnw = nil
+    @ene = nil
+    @wsw = nil
+    @ese = nil
+    @ssw = nil
+    @sse = nil
   end
 end
