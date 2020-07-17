@@ -28,7 +28,7 @@ class Tree
     position.all? { |coordinate| coordinate > -1 && coordinate < 8 }
   end
 
-  def build_level(root)
+  def build_tree(root)
     return root if root.nil?
 
     DIRECTIONS.each do |direction, shifts|
@@ -39,7 +39,7 @@ class Tree
         node = root.send("#{direction}=", Knight.new)
         node.position = candidate
         @spaces_visited.push(node.position)
-        build_level(node)
+        build_tree(node)
       end
     end
     root
