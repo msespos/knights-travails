@@ -5,20 +5,21 @@
 class Tree
   attr_reader :root, :spaces_visited
 
-  DIRECTIONS.freeze = { nnw: [-1, 2],
+  DIRECTIONS = { nnw: [-1, 2],
                         nne: [1, 2],
                         wnw: [-2, 1],
                         ene: [2, 1],
                         wsw: [-2, -1],
                         ese: [2, -1],
                         ssw: [-1, -2],
-                        sse: [1, -2] }
+                        sse: [1, -2] }.freeze
 
   def initialize(position)
     @root = Knight.new
     @root.position = position
     @spaces_visited = [@root.position]
     build_tree(@root)
+    level_order(@root)
   end
 
   def print_filled_board
@@ -46,5 +47,20 @@ class Tree
       build_tree(node)
     end
     root
+  end
+
+  def level_order(root = @root, positions = [])
+    return if root.nil?
+
+    queue = []
+    queue.push(root)
+    until queue.empty?
+      node = queue.shift
+      positions.push(node.position)
+      DIRECTIONS.each_key do |direction|
+        queue.push(node.send("#{direction}")) if node.send("#{direction}")
+      end
+    end
+    p positions
   end
 end
