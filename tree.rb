@@ -19,7 +19,6 @@ class Tree
     @root.position = position
     @spaces_visited = [@root.position]
     build_tree(@root)
-    level_order(@root)
   end
 
   def print_filled_board
@@ -49,7 +48,8 @@ class Tree
     root
   end
 
-  def level_order(root = @root, positions = [])
+=begin
+  def level_order_search(coordinate = [2,4], root = @root, positions = [])
     return if root.nil?
 
     queue = []
@@ -61,6 +61,6 @@ class Tree
         queue.push(node.send("#{direction}")) if node.send("#{direction}")
       end
     end
-    p positions
   end
+=end
 end
