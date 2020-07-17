@@ -18,6 +18,12 @@ class Tree
     build_level(@root)
   end
 
+  def print_spaces_visited
+    board = Board.new
+    board.possibilities(@spaces_visited)
+    board.print_board
+  end
+
   def on_board?(position)
     position.all? { |coordinate| coordinate > -1 && coordinate < 8 }
   end
@@ -41,8 +47,6 @@ class Tree
             node2 = node.send("#{direction}=", Knight.new)
             node2.position = temp
             @spaces_visited.push(node2.position)
-          else
-            return
           end
         end
       end

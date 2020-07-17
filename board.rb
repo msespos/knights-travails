@@ -5,7 +5,7 @@ class Board
 
   def print_board
     puts
-    puts @board.map { |row| row.join }
+    puts @board.reverse_each.map { |row| row.join }
     puts
   end
 
