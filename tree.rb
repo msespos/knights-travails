@@ -32,23 +32,14 @@ class Tree
     return root if root.nil?
 
     DIRECTIONS.each do |direction, shifts|
-      temp = root.position.map.with_index do |coordinate, i|
+      candidate = root.position.map.with_index do |coordinate, i|
         i == 0 ? coordinate += shifts[0] : coordinate += shifts[1]
       end
-      if on_board?(temp) && !@spaces_visited.include?(temp)
+      if on_board?(candidate) && !@spaces_visited.include?(candidate)
         node = root.send("#{direction}=", Knight.new)
-        node.position = temp
+        node.position = candidate
         @spaces_visited.push(node.position)
-        DIRECTIONS.each do |direction, shifts|
-          temp = node.position.map.with_index do |coordinate, i|
-            i == 0 ? coordinate += shifts[0] : coordinate += shifts[1]
-          end
-          if on_board?(temp) && !@spaces_visited.include?(temp)
-            node2 = node.send("#{direction}=", Knight.new)
-            node2.position = temp
-            @spaces_visited.push(node2.position)
-          end
-        end
+        build_level(node)
       end
     end
     root
