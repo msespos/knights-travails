@@ -15,7 +15,7 @@ class Tree
     @root = Knight.new
     @root.position = position
     @spaces_visited = [@root.position]
-    build_level(@root)
+    build_tree(@root)
   end
 
   def print_spaces_visited
