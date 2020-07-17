@@ -1,15 +1,18 @@
+# frozen_string_literal: true
+
+# the tree which describes the possible trips the knight can take
+# starting from any square
 class Tree
   attr_reader :root, :spaces_visited
 
-  DIRECTIONS =  { :nnw => [-1, 2],
-                  :nne => [1, 2],
-                  :wnw => [-2, 1],
-                  :ene => [2, 1],
-                  :wsw => [-2, -1],
-                  :ese => [2, -1],
-                  :ssw => [-1, -2],
-                  :sse => [1, -2]
-                }
+  DIRECTIONS.freeze = { nnw: [-1, 2],
+                        nne: [1, 2],
+                        wnw: [-2, 1],
+                        ene: [2, 1],
+                        wsw: [-2, -1],
+                        ese: [2, -1],
+                        ssw: [-1, -2],
+                        sse: [1, -2] }
 
   def initialize(position)
     @root = Knight.new
@@ -18,9 +21,9 @@ class Tree
     build_tree(@root)
   end
 
-  def print_spaces_visited
+  def print_filled_board
     board = Board.new
-    board.possibilities(@spaces_visited)
+    board.fill_board(@spaces_visited)
     board.print_board
   end
 
@@ -33,14 +36,14 @@ class Tree
 
     DIRECTIONS.each do |direction, shifts|
       candidate = root.position.map.with_index do |coordinate, i|
-        i == 0 ? coordinate += shifts[0] : coordinate += shifts[1]
+        i.zero? ? coordinate + shifts[0] : coordinate + shifts[1]
       end
-      if on_board?(candidate) && !@spaces_visited.include?(candidate)
-        node = root.send("#{direction}=", Knight.new)
-        node.position = candidate
-        @spaces_visited.push(node.position)
-        build_tree(node)
-      end
+      next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
+
+      node = root.send("#{direction}=", Knight.new)
+      node.position = candidate
+      @spaces_visited.push(node.position)
+      build_tree(node)
     end
     root
   end
