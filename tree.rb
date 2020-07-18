@@ -34,7 +34,6 @@ class Tree
   def build_tree(root)
     return root if root.nil?
 
-    return if @spaces_visited.length > 63
     DIRECTIONS.each_key do |direction|
       node = root.send("#{direction}")
       DIRECTIONS.each do |direction, shifts|
