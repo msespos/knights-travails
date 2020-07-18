@@ -34,33 +34,20 @@ class Tree
   def build_tree(root)
     return root if root.nil?
 
-    DIRECTIONS.each do |direction, shifts|
-      candidate = root.position.map.with_index do |coordinate, i|
-        i.zero? ? coordinate + shifts[0] : coordinate + shifts[1]
-      end
-      next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
+    return if @spaces_visited.length > 63
+    DIRECTIONS.each_key do |direction|
+      node = root.send("#{direction}")
+      DIRECTIONS.each do |direction, shifts|
+        candidate = root.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
+        next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
 
-      node = root.send("#{direction}=", Knight.new)
-      node.position = candidate
-      @spaces_visited.push(node.position)
+        node = root.send("#{direction}=", Knight.new)
+        node.position = candidate
+        @spaces_visited.push(node.position)
+        p @spaces_visited.length
+      end
       build_tree(node)
     end
     root
   end
-
-=begin
-  def level_order_search(coordinate = [2,4], root = @root, positions = [])
-    return if root.nil?
-
-    queue = []
-    queue.push(root)
-    until queue.empty?
-      node = queue.shift
-      positions.push(node.position)
-      DIRECTIONS.each_key do |direction|
-        queue.push(node.send("#{direction}")) if node.send("#{direction}")
-      end
-    end
-  end
-=end
 end
