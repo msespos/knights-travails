@@ -6,13 +6,13 @@ class Tree
   attr_reader :root, :spaces_visited
 
   DIRECTIONS = { nnw: [-1, 2],
-                        nne: [1, 2],
-                        wnw: [-2, 1],
-                        ene: [2, 1],
-                        wsw: [-2, -1],
-                        ese: [2, -1],
-                        ssw: [-1, -2],
-                        sse: [1, -2] }.freeze
+                 nne: [1, 2],
+                 wnw: [-2, 1],
+                 ene: [2, 1],
+                 wsw: [-2, -1],
+                 ese: [2, -1],
+                 ssw: [-1, -2],
+                 sse: [1, -2] }.freeze
 
   def initialize(position)
     @root = Knight.new
@@ -34,16 +34,15 @@ class Tree
   def build_tree(root)
     return root if root.nil?
 
-    DIRECTIONS.each_key do |direction|
-      node = root.send("#{direction}")
-      DIRECTIONS.each do |direction, shifts|
+    DIRECTIONS.each_key do |root_direction|
+      node = root.send(root_direction.to_s)
+      DIRECTIONS.each do |node_direction, shifts|
         candidate = root.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
         next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
 
-        node = root.send("#{direction}=", Knight.new)
+        node = root.send("#{node_direction}=", Knight.new)
         node.position = candidate
         @spaces_visited.push(node.position)
-        p @spaces_visited.length
       end
       build_tree(node)
     end
