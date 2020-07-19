@@ -31,25 +31,24 @@ class Tree
     position.all? { |coordinate| coordinate > -1 && coordinate < 8 }
   end
 
-def knight_moves_tree(start, destination)
-  return start if start.nil?
+  def knight_moves_tree(start, destination)
+    return start if start.nil?
 
-  DIRECTIONS.each do |direction, shifts|
-    candidate = start.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
-    next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
+    DIRECTIONS.each do |direction, shifts|
+      candidate = start.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
+      next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
 
-    node = start.send("#{direction}=", Knight.new)
-    node.position = candidate
-    node.path_to = start.path_to.clone.push(node.position)
-    @spaces_visited.push(node.position)
-    p node.path_to if candidate == destination
+      node = start.send("#{direction}=", Knight.new)
+      node.position = candidate
+      node.path_to = start.path_to.clone.push(node.position)
+      @spaces_visited.push(node.position)
+      p node.path_to if candidate == destination
 
-    return candidate if candidate == destination
-
+      return candidate if candidate == destination
+    end
+    # knight_moves(node, destination)
+    start
   end
-  #knight_moves(node, destination)
-  start
-end
 
   def knight_moves(start, destination)
     start.path_to = [start.position]
