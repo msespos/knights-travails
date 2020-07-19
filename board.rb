@@ -14,7 +14,7 @@ class Board
 
   def fill_board(coordinates)
     coordinates.each do |coordinate|
-      @board[coordinate[0]][coordinate[1]] = ' @ '
+      @board[coordinate[1]][coordinate[0]] = ' @ '
     end
   end
 end

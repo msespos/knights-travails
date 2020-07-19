@@ -18,7 +18,7 @@ class Tree
     @root = Knight.new
     @root.position = position
     @spaces_visited = [@root.position]
-    build_tree(@root)
+    p knight_moves(@root, [1, 4])
   end
 
   def print_filled_board
@@ -31,21 +31,28 @@ class Tree
     position.all? { |coordinate| coordinate > -1 && coordinate < 8 }
   end
 
-  def build_tree(root)
-    return root if root.nil?
+def knight_moves_tree(start, destination)
+  return start if start.nil?
 
-    DIRECTIONS.each_key do |root_direction|
-      node = root.send(root_direction.to_s)
-      DIRECTIONS.each do |node_direction, shifts|
-        candidate = root.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
-        next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
+  DIRECTIONS.each do |direction, shifts|
+    candidate = start.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
+    next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
 
-        node = root.send("#{node_direction}=", Knight.new)
-        node.position = candidate
-        @spaces_visited.push(node.position)
-      end
-      build_tree(node)
-    end
-    root
+    node = start.send("#{direction}=", Knight.new)
+    node.position = candidate
+    node.path_to = start.path_to.clone.push(node.position)
+    @spaces_visited.push(node.position)
+    p node.path_to if candidate == destination
+
+    return candidate if candidate == destination
+
+  end
+  #knight_moves(node, destination)
+  start
+end
+
+  def knight_moves(start, destination)
+    start.path_to = [start.position]
+    knight_moves_tree(start, destination)
   end
 end
