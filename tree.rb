@@ -17,6 +17,7 @@ class Tree
   def initialize(position)
     @root = Knight.new
     @root.position = position
+    @root.path_to = [@root.position]
     @spaces_visited = [@root.position]
     p knight_moves(@root, [1, 4])
   end
@@ -31,7 +32,7 @@ class Tree
     position.all? { |coordinate| coordinate > -1 && coordinate < 8 }
   end
 
-  def knight_moves_tree(start, destination)
+  def knight_moves(start, destination)
     return start if start.nil?
 
     DIRECTIONS.each do |direction, shifts|
@@ -48,10 +49,5 @@ class Tree
     end
     # knight_moves(node, destination)
     start
-  end
-
-  def knight_moves(start, destination)
-    start.path_to = [start.position]
-    knight_moves_tree(start, destination)
   end
 end
