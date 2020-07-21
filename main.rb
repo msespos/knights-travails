@@ -11,4 +11,4 @@ def knight_moves(start, destination)
   tree.print_filled_board
 end
 
-knight_moves([0,0], [3,3])
+def start knight_moves([0, 0], [3, 3])

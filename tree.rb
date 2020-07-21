@@ -47,11 +47,12 @@ class Tree
       @spaces_visited.push(node.position)
       return node if candidate == destination
     end
-    puts start.position.to_s + "-->" + @unchecked_spaces.map { |n| n.position.to_s }.join(',')
+    # below contributed by AA to change tree creation from depth-first to breadth-first
+    puts start.position.to_s + '-->' + @unchecked_spaces.map { |n| n.position.to_s }.join(',')
     node = @unchecked_spaces.shift
     solution = knight_tree(node, destination)
     return solution unless solution.nil?
 
-    return nil
+    nil
   end
 end
