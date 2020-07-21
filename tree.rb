@@ -43,12 +43,12 @@ class Tree
       node = start.send("#{direction}=", Knight.new)
       node.position = candidate
       node.path_to = start.path_to.clone.push(node.position)
+      # below line contributed by AA to change tree creation from depth-first to breadth-first
       @unchecked_spaces.push(node)
       @spaces_visited.push(node.position)
       return node if candidate == destination
     end
-    # below contributed by AA to change tree creation from depth-first to breadth-first
-    puts start.position.to_s + '-->' + @unchecked_spaces.map { |n| n.position.to_s }.join(',')
+    # below 4 lines contributed by AA to change tree creation from depth-first to breadth-first
     node = @unchecked_spaces.shift
     solution = knight_tree(node, destination)
     return solution unless solution.nil?
