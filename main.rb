@@ -4,7 +4,11 @@ require_relative 'board.rb'
 require_relative 'knight.rb'
 require_relative 'tree.rb'
 
-tree = Tree.new([3, 3])
-puts "spaces visited:"
-p tree.spaces_visited
-tree.print_filled_board
+def knight_moves(start, destination)
+  tree = Tree.new(start)
+  solution = tree.knight_tree(nil, destination)
+  p solution.path_to
+  tree.print_filled_board
+end
+
+knight_moves([0,0], [3,3])

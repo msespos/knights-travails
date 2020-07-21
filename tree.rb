@@ -19,8 +19,7 @@ class Tree
     @root.position = position
     @root.path_to = [@root.position]
     @spaces_visited = [@root.position]
-    puts "knight_moves return:"
-    p knight_moves(@root, [4,2])
+    @unchecked_spaces = []
   end
 
   def print_filled_board
@@ -33,29 +32,26 @@ class Tree
     position.all? { |coordinate| coordinate > -1 && coordinate < 8 }
   end
 
-  def knight_moves(start, destination)
-    return start if start.nil?
+  def knight_tree(start, destination)
+    start = @root if start.nil?
+    return start if start.position == destination
 
-    DIRECTIONS.each_key do |direction|
-      node = start.send("#{direction}")
-      DIRECTIONS.each do |direction, shifts|
-        candidate = start.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
-        next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
+    DIRECTIONS.each do |direction, shifts|
+      candidate = start.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
+      next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
 
-        node = start.send("#{direction}=", Knight.new)
-        node.position = candidate
-        node.path_to = start.path_to.clone.push(node.position)
-        @spaces_visited.push(node.position)
-        puts "path to:" if candidate == destination
-
-        p node.path_to if candidate == destination
-
-        puts "candidate:" if candidate == destination
-
-        return candidate if candidate == destination
-      end
-      knight_moves(node, destination)
+      node = start.send("#{direction}=", Knight.new)
+      node.position = candidate
+      node.path_to = start.path_to.clone.push(node.position)
+      @unchecked_spaces.push(node)
+      @spaces_visited.push(node.position)
+      return node if candidate == destination
     end
-    start
+    puts start.position.to_s + "-->" + @unchecked_spaces.map { |n| n.position.to_s }.join(',')
+    node = @unchecked_spaces.shift
+    solution = knight_tree(node, destination)
+    return solution unless solution.nil?
+
+    return nil
   end
 end
