@@ -4,6 +4,7 @@ require_relative 'board.rb'
 require_relative 'knight.rb'
 require_relative 'tree.rb'
 
+# call knight_tree and return the solution and its length to the user
 def knight_moves(start, destination)
   tree = Tree.new(start)
   solution = tree.knight_tree(nil, destination)
@@ -11,6 +12,7 @@ def knight_moves(start, destination)
   solution.path_to.each { |position| p position }
 end
 
+# get the coordinates from the user and use them to call knight_moves
 def intro
   puts 'Enter the x-coordinate of your starting position (0 to 7):'
   x_coord_start = gets.chomp

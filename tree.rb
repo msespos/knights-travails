@@ -22,20 +22,28 @@ class Tree
     @unchecked_spaces = []
   end
 
+  # for debugging purposes only
   def print_filled_board
     board = Board.new
     board.fill_board(@spaces_visited)
     board.print_board
   end
 
+  # determine if a specific position is on the board
   def on_board?(position)
     position.all? { |coordinate| coordinate > -1 && coordinate < 8 }
   end
 
+  # build the tree and searches as it builds for the destination location and the path to it
   def knight_tree(start, destination)
     start = @root if start.nil?
     return start if start.position == destination
 
+    # search in all directions from a node (up to 8) and create new nodes if possible
+    # then store the spaces which have been visited to @spaces_visited
+    # add nodes to @unchecked_spaces for later use
+    # and create a path_to attribute for each node to use if a node is the destination
+    # check to see if the destination position has been located
     DIRECTIONS.each do |direction, shifts|
       candidate = start.position.map.with_index { |coordinate, i| coordinate + shifts[i] }
       next unless on_board?(candidate) && !@spaces_visited.include?(candidate)
@@ -49,6 +57,8 @@ class Tree
       return node if candidate == destination
     end
     # below 4 lines contributed by AA to change tree creation from depth-first to breadth-first
+    # make a recursive call to knight_tree on the first node in @unchecked_spaces
+    # return the result of that call if it is not nil, and return nil otherwise
     node = @unchecked_spaces.shift
     solution = knight_tree(node, destination)
     return solution unless solution.nil?
